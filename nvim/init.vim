@@ -81,7 +81,7 @@ let g:cursorword_highlight = 1
 let g:dashboard_default_executive ='fzf'
 let g:slimv_preferred = 'sbcl'
 let g:slimv_menu = 1
-
+let g:neovide_cursor_vfx_mode = "sonicboom"
 let mapleader = ','
 lua << EOF
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
