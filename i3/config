@@ -118,7 +118,6 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+Shift+s sticky toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
 
 # move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -394,6 +393,19 @@ mode "$mode_gaps_outer" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
+set $mode_launcher App launcher
+mode "$mode_launcher" {
+	bindsym 1 exec neovide
+	bindsym 2 exec librewolf
+	bindsym 3 exec telegram-desktop
+	bindsym 4 exec spotify
+	bindsym 5 exec zathura
+	bindsym 6 exec pcmanfm
+	bindsym Escape mode "default"
+	bindsym Return mode "default"
+
+}
+bindsym $mod+a mode "$mode_launcher"
 exec killall conky
 exec_always  setxkbmap -layout "us,ru" -option "grp:caps_toggle,grp_led:caps"
 exec_always --no-startup-id autotiling
