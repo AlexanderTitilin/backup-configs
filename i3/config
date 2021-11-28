@@ -33,7 +33,7 @@ bindsym $mod+Return exec urxvt
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+semicolon exec --no-startup-id dmenu_recency
+bindsym $mod+semicolon exec --no-startup-id rofi -font "hack 13" -show run
 
 
 ################################################################################################
