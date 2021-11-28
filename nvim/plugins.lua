@@ -2,7 +2,8 @@ local iron = require('iron')
 iron.core.set_config {
   preferred = {
     python = "ipython",
-    scheme = "racket",
-    javascript = "node"
+    scheme = "csi",
+    javascript = "node",
+    sicp = "racket"
   }
 }

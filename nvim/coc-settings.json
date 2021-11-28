@@ -6,7 +6,8 @@
         "racket-langserver"
       ],
       "filetypes": [
-        "scheme"
+        "scheme",
+	"racket"
       ] }
   }
 }
