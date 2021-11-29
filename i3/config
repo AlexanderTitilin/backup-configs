@@ -357,9 +357,8 @@ mode "$mode_launcher" {
 	bindsym 1 exec neovide
 	bindsym 2 exec librewolf
 	bindsym 3 exec telegram-desktop
-	bindsym 4 exec spotify
-	bindsym 5 exec zathura
-	bindsym 6 exec pcmanfm
+	bindsym 4 exec zathura
+	bindsym 5 exec pcmanfm
 	bindsym Escape mode "default"
 	bindsym Return mode "default"
 
