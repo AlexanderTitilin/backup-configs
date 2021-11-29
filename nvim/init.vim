@@ -84,6 +84,7 @@ let g:slimv_menu = 1
 let g:neovide_cursor_vfx_mode = "sonicboom"
 let mapleader = ','
 nnoremap <Leader>s :split<CR>
+nnoremap <Leader>m :VimtexCompile<CR>
 lua << EOF
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.org = {
