@@ -369,3 +369,4 @@ exec killall conky
 exec_always  setxkbmap -layout "us,ru" -option "grp:caps_toggle,grp_led:caps"
 exec_always --no-startup-id autotiling
 exec_always --no-startup-id kdeconnect-indicator
+exec_always --no-startup-id spotidyd 
