@@ -3,6 +3,7 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'glacambre/firenvim'
 Plug 'f-person/git-blame.nvim'
 Plug 'alec-gibson/nvim-tetris'
 Plug 'junegunn/fzf.vim'

@@ -350,7 +350,7 @@ smart_borders on
 set $mode_launcher App launcher
 mode "$mode_launcher" {
 	bindsym 1 exec neovide
-	bindsym 2 exec librewolf
+	bindsym 2 exec firefox
 	bindsym 3 exec telegram-desktop
 	bindsym 4 exec zathura
 	bindsym 5 exec pcmanfm
@@ -363,4 +363,3 @@ exec killall conky
 exec_always  setxkbmap -layout "us,ru" -option "grp:caps_toggle,grp_led:caps"
 exec_always --no-startup-id autotiling
 exec_always --no-startup-id kdeconnect-indicator
-exec_always --no-startup-id spotifyd  --autoplay
