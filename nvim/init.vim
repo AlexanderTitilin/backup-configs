@@ -86,6 +86,7 @@ let mapleader = ','
 nnoremap <Leader>s :split<CR>
 nnoremap <Leader>m :VimtexCompile<CR>
 nnoremap <Leader>w :w<CR>
+nnoremap <leader>f :CHADopen<CR>
 lua << EOF
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.org = {
