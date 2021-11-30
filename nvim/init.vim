@@ -33,7 +33,6 @@ Plug 'mattn/calendar-vim'
 Plug 'colepeters/spacemacs-theme.vim'
 Plug 'shougo/neco-vim'
 Plug 'alec-gibson/nvim-tetris'
-Plug 'kovisoft/slimv'
 Plug 'Townk/vim-autoclose'
 Plug 'vim-scripts/paredit.vim'
 Plug 'norcalli/nvim-colorizer.lua'
@@ -79,8 +78,6 @@ set guioptions+=m
 let g:paredit_electric_return=0
 let g:cursorword_highlight = 1
 let g:dashboard_default_executive ='fzf'
-let g:slimv_preferred = 'sbcl'
-let g:slimv_menu = 1
 let g:neovide_cursor_vfx_mode = "sonicboom"
 let mapleader = ','
 nnoremap <Leader>s :split<CR>
