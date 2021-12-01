@@ -4,6 +4,7 @@ iron.core.set_config {
     python = "ipython",
     scheme = "csi",
     javascript = "node",
-    sicp = "racket"
+    sicp = "racket",
+    htdpbsl = "racket"
   }
 }

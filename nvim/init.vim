@@ -3,6 +3,8 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'windwp/nvim-ts-autotag'
+Plug 'github/copilot.vim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -51,7 +53,6 @@ Plug 'danilo-augusto/vim-afterglow'
 Plug 'morhetz/gruvbox'
 Plug 'lervag/vimtex'
 Plug 'netsgnut/arctheme.vim'
-Plug 'python-mode/python-mode'
 Plug 'arcticicestudio/nord-vim'
 Plug 'SirVer/ultisnips'
 Plug 'dylanaraps/wal'
@@ -80,8 +81,6 @@ set termguicolors
 set guifont=Hack\ Nerd\ Font\ Mono:h17
 let g:notes_suffix = '.txt'
 let g:Powerline_symbols='unicode' 
-let g:pymode_rope = 0
-let g:pymode_rope_completion = 0
 set guioptions+=m
 let g:paredit_electric_return=0
 let g:cursorword_highlight = 1
@@ -181,4 +180,13 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 require'lspconfig'.pylsp.setup{}
 require'lspconfig'.racket_langserver.setup{}
 require'lspconfig'.texlab.setup{}
+require'lspconfig'.html.setup{}
+require'lspconfig'.cssls.setup{}
+require('nvim-ts-autotag').setup()
 EOF
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab 
+set softtabstop=4 
+luafile $HOME/.config/nvim/plugins.lua
