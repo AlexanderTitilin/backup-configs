@@ -3,7 +3,10 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'Olical/conjure'
 Plug 'windwp/nvim-ts-autotag'
+Plug 'ellisonleao/glow.nvim'
+Plug 'vim-scripts/HTML-AutoCloseTag'
 Plug 'github/copilot.vim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -87,8 +90,9 @@ let g:cursorword_highlight = 1
 let g:dashboard_default_executive ='fzf'
 let g:neovide_cursor_vfx_mode = "sonicboom"
 let mapleader = ','
+let maplocalleader = ','
 nnoremap <Leader>s :split<CR>
-nnoremap <Leader>m :VimtexCompile<CR>
+nnoremap <Leader>v :VimtexCompile<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <leader>f :CHADopen<CR>
 lua << EOF
@@ -161,7 +165,6 @@ lua << EOF
     })
   })
 
-  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline('/', {
     sources = {
       { name = 'buffer' }
@@ -180,13 +183,21 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 require'lspconfig'.pylsp.setup{}
 require'lspconfig'.racket_langserver.setup{}
 require'lspconfig'.texlab.setup{}
-require'lspconfig'.html.setup{}
-require'lspconfig'.cssls.setup{}
+require'lspconfig'.bashls.setup{}
+require'lspconfig'.hls.setup{}
 require('nvim-ts-autotag').setup()
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+require'lspconfig'.html.setup {
+  capabilities = capabilities,
+}
 EOF
+set clipboard=unnamedplus
 set tabstop=4
 set shiftwidth=4
 set smarttab
 set expandtab 
 set softtabstop=4 
+noremap <leader>p :Glow<CR>
 luafile $HOME/.config/nvim/plugins.lua
