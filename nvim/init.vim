@@ -3,6 +3,11 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'nvim-lua/plenary.nvim'
+Plug 'TimUntersberger/neogit'
+Plug 'NTBBloodbath/doom-one.nvim'
+Plug 'ms-jpq/coq_nvim'
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'Olical/conjure'
 Plug 'windwp/nvim-ts-autotag'
 Plug 'ellisonleao/glow.nvim'
@@ -65,7 +70,7 @@ Plug 'xolox/vim-misc'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 call plug#end()
 set background=dark
-colorscheme material  
+colorscheme doom-one 
 set smartcase 
 set smarttab 
 let g:rehash256 = 1
@@ -92,7 +97,7 @@ let g:neovide_cursor_vfx_mode = "sonicboom"
 let mapleader = ','
 let maplocalleader = ','
 nnoremap <Leader>s :split<CR>
-nnoremap <Leader>v :VimtexCompile<CR>
+nnoremap <Leader>m :VimtexCompile<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <leader>f :CHADopen<CR>
 lua << EOF
@@ -188,10 +193,30 @@ require'lspconfig'.hls.setup{}
 require('nvim-ts-autotag').setup()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+local lsp_installer = require("nvim-lsp-installer")
+lsp_installer.on_server_ready(function(server)
+    local opts = {}
+    server:setup(opts)
+end)
+local lsp_installer_servers = require'nvim-lsp-installer.servers'
 
+local server_available, requested_server = lsp_installer_servers.get_server("rust_analyzer")
+if server_available then
+    requested_server:on_ready(function ()
+        local opts = {}
+        requested_server:setup(opts)
+    end)
+    if not requested_server:is_installed() then
+        -- Queue the server to be installed
+        requested_server:install()
+    end
+end
 require'lspconfig'.html.setup {
   capabilities = capabilities,
 }
+local neogit = require('neogit')
+
+neogit.setup {}
 EOF
 set clipboard=unnamedplus
 set tabstop=4
