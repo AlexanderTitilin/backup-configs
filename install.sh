@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo pacman -S --needed  base-devel
-sudo pacman -S zsh firefox neovim rxvt-unicode python python-pip py3status rofi zathura ranger pcmanfm
+sudo pacman -S zsh firefox neovim rxvt-unicode python python-pip py3status rofi zathura ranger pcmanfm ipython
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
 makepkg -si
