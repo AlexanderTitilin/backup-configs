@@ -110,7 +110,9 @@ parser_config.org = {
   filetype = 'org',
 }
 require'nvim-treesitter.configs'.setup {
-  -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
+    autotag = {
+    enable = true,
+  },
   rainbow = {
 	  enable = true,
 	  extended_mode = true,
@@ -224,6 +226,7 @@ set smarttab
 set expandtab 
 set softtabstop=4 
 noremap <leader>p :Glow<CR>
+noremap <leader>c :lua vim.lsp.buf.formatting()<CR>
 luafile $HOME/.config/nvim/plugins.lua
 
 let g:dashboard_custom_header =<< trim END

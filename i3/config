@@ -33,7 +33,7 @@ bindsym $mod+Return exec urxvt
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+semicolon exec --no-startup-id rofi -font "hack 13" -show run
+bindsym $mod+d exec --no-startup-id rofi -font "hack 13" -show run
 
 
 ################################################################################################
@@ -363,3 +363,4 @@ exec killall conky
 exec_always  setxkbmap -layout "us,ru" -option "grp:caps_toggle,grp_led:caps"
 exec_always --no-startup-id autotiling
 exec_always --no-startup-id kdeconnect-indicator
+exec_always wal -f base16-material
