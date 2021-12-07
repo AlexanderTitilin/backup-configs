@@ -228,7 +228,7 @@ set softtabstop=4
 noremap <leader>p :Glow<CR>
 noremap <leader>c :lua vim.lsp.buf.formatting()<CR>
 luafile $HOME/.config/nvim/plugins.lua
-
+let g:neovide_transparency=0.8
 let g:dashboard_custom_header =<< trim END
 =================     ===============     ===============   ========  ========
 \\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //
