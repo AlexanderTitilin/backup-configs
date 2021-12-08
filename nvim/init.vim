@@ -3,6 +3,7 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'powerman/vim-plugin-ruscmd'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'TimUntersberger/neogit'
 Plug 'NTBBloodbath/doom-one.nvim'
@@ -62,14 +63,13 @@ Plug 'lervag/vimtex'
 Plug 'netsgnut/arctheme.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'SirVer/ultisnips'
-Plug 'dylanaraps/wal'
 Plug 'cocopon/iceberg.vim'
 Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 call plug#end()
 set background=dark
-colorscheme doom-one 
+colorscheme nord
 set smartcase 
 set smarttab 
 let g:rehash256 = 1
@@ -85,14 +85,13 @@ let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 set number 
 set relativenumber
 set termguicolors
-set guifont=Hack\ Nerd\ Font\ Mono:h17
+set guifont=Hack\ Nerd\ Font\ Mono:h13
 let g:notes_suffix = '.txt'
 let g:Powerline_symbols='unicode' 
 set guioptions+=m
 let g:paredit_electric_return=0
 let g:cursorword_highlight = 1
 let g:dashboard_default_executive ='fzf'
-let g:neovide_cursor_vfx_mode = "sonicboom"
 let mapleader = ','
 let maplocalleader = ','
 nnoremap <Leader>s :split<CR>
@@ -220,6 +219,7 @@ local neogit = require('neogit')
 neogit.setup {}
 EOF
 set clipboard=unnamedplus
+let g:neovide_cursor_vfx_mode = "railgun"
 set tabstop=4
 set shiftwidth=4
 set smarttab
@@ -228,7 +228,6 @@ set softtabstop=4
 noremap <leader>p :Glow<CR>
 noremap <leader>c :lua vim.lsp.buf.formatting()<CR>
 luafile $HOME/.config/nvim/plugins.lua
-let g:neovide_transparency=0.8
 let g:dashboard_custom_header =<< trim END
 =================     ===============     ===============   ========  ========
 \\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //
