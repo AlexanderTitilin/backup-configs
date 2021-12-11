@@ -3,7 +3,8 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
-Plug 'dense-analysis/ale'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'w0ng/vim-hybrid'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'powerman/vim-plugin-ruscmd'
 Plug 'nvim-lua/plenary.nvim'
@@ -71,7 +72,7 @@ Plug 'xolox/vim-misc'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 call plug#end()
 set background=dark
-colorscheme nord
+colorscheme  dracula
 set smartcase 
 set smarttab 
 let g:rehash256 = 1
