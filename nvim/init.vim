@@ -3,6 +3,9 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'w0ng/vim-hybrid'
+Plug 'simrat39/rust-tools.nvim'
 Plug 'powerman/vim-plugin-ruscmd'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'TimUntersberger/neogit'
@@ -69,7 +72,7 @@ Plug 'xolox/vim-misc'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 call plug#end()
 set background=dark
-colorscheme nord
+colorscheme  dracula
 set smartcase 
 set smarttab 
 let g:rehash256 = 1
@@ -198,24 +201,31 @@ lsp_installer.on_server_ready(function(server)
     local opts = {}
     server:setup(opts)
 end)
-local lsp_installer_servers = require'nvim-lsp-installer.servers'
+local lsp_installer = require("nvim-lsp-installer")
 
-local server_available, requested_server = lsp_installer_servers.get_server("rust_analyzer")
-if server_available then
-    requested_server:on_ready(function ()
-        local opts = {}
-        requested_server:setup(opts)
-    end)
-    if not requested_server:is_installed() then
-        -- Queue the server to be installed
-        requested_server:install()
+lsp_installer.on_server_ready(function(server)
+    local opts = {}
+
+    if server.name == "rust_analyzer" then
+        -- Initialize the LSP via rust-tools instead
+        require("rust-tools").setup {
+            -- The "server" property provided in rust-tools setup function are the
+            -- settings rust-tools will provide to lspconfig during init.            -- 
+            -- We merge the necessary settings from nvim-lsp-installer (server:get_default_options())
+            -- with the user's own settings (opts).
+            server = vim.tbl_deep_extend("force", server:get_default_options(), opts),
+        }
+        server:attach_buffers()
+    else
+        server:setup(opts)
     end
-end
+end)
 require'lspconfig'.html.setup {
   capabilities = capabilities,
 }
 local neogit = require('neogit')
 
+require('rust-tools').setup({})
 neogit.setup {}
 EOF
 set clipboard=unnamedplus
@@ -228,6 +238,10 @@ set softtabstop=4
 noremap <leader>p :Glow<CR>
 noremap <leader>c :lua vim.lsp.buf.formatting()<CR>
 luafile $HOME/.config/nvim/plugins.lua
+let g:ale_fixers = {'python': ['autopep8'],
+            \           'javascript': ['eslint'],
+            \        }
+let g:ale_fix_on_save = 1
 let g:dashboard_custom_header =<< trim END
 =================     ===============     ===============   ========  ========
 \\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //
