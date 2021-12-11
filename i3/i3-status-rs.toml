@@ -1,5 +1,5 @@
 theme = "native"
-icons = "awesome5"
+icons = "awesome"
 
 [[block]]
 block = "kdeconnect"
@@ -8,6 +8,12 @@ block = "kdeconnect"
 block = "weather"
 format = "{temp}"
 service = {name = "openweathermap", api_key = "9eb1aeef2556212c5471df63111e76b1",place = "Saint Petersburg, RU",units = "metric"}
+
+[[block]]
+block = "custom"
+command = "spt playback --format"
+on_click = "spt playback --toggle"
+interval = 3
 
 [[block]]
 block = "pacman"
