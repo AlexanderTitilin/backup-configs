@@ -96,7 +96,7 @@ bindsym $mod+q split toggle
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+w layout stacked 
+bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
@@ -125,9 +125,9 @@ bindsym $mod+Ctrl+h workspace prev
 # to display names or symbols instead of plain workspace numbers you can use
 # something like: set $ws1 1:mail
 #                 set $ws2 2:
-set $ws1 1:
-set $ws2 2:
-set $ws3 3: 
+set $ws1 1
+set $ws2 2
+set $ws3 3 
 set $ws4 4
 set $ws5 5
 set $ws6 6
@@ -278,9 +278,9 @@ exec_always --no-startup-id fix_xcursor
         background #27292c
         statusline #F9FAF9
         separator  #454947
-	focused_workspace  #353535 #383838 #FFFFFF
+	focused_workspace  #595B5B #222D31 #FFFFFF
    active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #222D31 #FFFFFF
+        inactive_workspace #595B5B #383838 #FFFFFF
         binding_mode       #16a085 #2C2C2C #F9FAF9
         urgent_workspace   #16a085 #FDF6E3 #E5201D
   	
