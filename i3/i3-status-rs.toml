@@ -5,15 +5,13 @@ icons = "awesome"
 block = "kdeconnect"
 
 [[block]]
+block = "uptime"
+
+[[block]]
 block = "weather"
 format = "{temp}"
 service = {name = "openweathermap", api_key = "9eb1aeef2556212c5471df63111e76b1",place = "Saint Petersburg, RU",units = "metric"}
 
-[[block]]
-block = "custom"
-command = "spt playback --format"
-on_click = "spt playback --toggle"
-interval = 3
 
 [[block]]
 block = "temperature"
@@ -27,7 +25,8 @@ format_mem = "{mem_used;M}"
 
 [[block]]
 block = "networkmanager"
-device_format = "{ap}"
+on_click = "nm-connection-editor"
+device_format = "{icon}{ap}"
 
 [[block]]
 block = "time"
