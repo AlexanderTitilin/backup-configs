@@ -3,6 +3,7 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'w0ng/vim-hybrid'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'w0ng/vim-hybrid'
 Plug 'simrat39/rust-tools.nvim'
@@ -72,7 +73,7 @@ Plug 'xolox/vim-misc'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 call plug#end()
 set background=dark
-colorscheme  dracula
+colorscheme hybrid 
 set smartcase 
 set smarttab 
 let g:rehash256 = 1
@@ -80,8 +81,6 @@ let g:tex_flavor = 'latex'
 let g:vimtex_quickfix_mode = 0
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_compiler_progname = 'nvr'
-set conceallevel=1
-let g:tex_conceal='abdmg'
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
