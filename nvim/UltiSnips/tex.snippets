@@ -2,6 +2,32 @@ snippet // "Fraction" iA
 \\frac{$1}{$2}$0
 endsnippet
 
+snippet box "Box"
+`!p snip.rv = '┌' + '─' * (len(t[1]) + 2) + '┐'`
+│ $1 │
+`!p snip.rv = '└' + '─' * (len(t[1]) + 2) + '┘'`
+$0
+endsnippet
+
+snippet head "Head"
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\newtheorem{theorem}{Теорема}
+\newtheorem{corollary}{Следствие}[theorem]
+\newtheorem{lemma}[theorem]{Лемма}
+\title{$1}
+\author{$2}
+\date{}
+\begin{document}
+	\maketitle
+	$0
+\end{document}
+
+endsnippet
 snippet sr "^2" iA
 ^2
 endsnippet
@@ -115,7 +141,7 @@ snippet sq "\sqrt{}" iA
 endsnippet
 priority 300
 snippet dint "integral" wA
-\int_{${1:-\infty}}^{${2:\infty}} ${3:${VISUAL}} $0
+\int\limits_{$1}^{$2} ${3:${VISUAL}} $0
 
 endsnippet
 snippet beg "begin{} / end{}" bA

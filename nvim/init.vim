@@ -3,6 +3,12 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'sbdchd/neoformat'
+Plug 'nvim-neorg/neorg' 
+Plug 'nvim-lua/plenary.nvim'
+Plug 'vimwiki/vimwiki'
+Plug 'michal-h21/vim-zettel'
+Plug 'hylang/vim-hy'
 Plug 'w0ng/vim-hybrid'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'w0ng/vim-hybrid'
@@ -13,7 +19,6 @@ Plug 'TimUntersberger/neogit'
 Plug 'NTBBloodbath/doom-one.nvim'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'Olical/conjure'
-Plug 'windwp/nvim-ts-autotag'
 Plug 'ellisonleao/glow.nvim'
 Plug 'vim-scripts/HTML-AutoCloseTag'
 Plug 'github/copilot.vim'
@@ -42,12 +47,10 @@ Plug 'marko-cerovac/material.nvim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'ThePrimeagen/vim-be-good'
 Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'kristijanhusak/orgmode.nvim'
 Plug 'hkupty/iron.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'neovimhaskell/haskell-vim'
-Plug 'brtastic/vim-vorg'
 Plug 'johngrib/vim-game-snake'
 Plug 'ajh17/spacegray.vim'
 Plug 'tomasr/molokai'
@@ -100,37 +103,6 @@ nnoremap <Leader>s :split<CR>
 nnoremap <Leader>m :VimtexCompile<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <leader>f :CHADopen<CR>
-lua << EOF
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.org = {
-  install_info = {
-    url = 'https://github.com/milisims/tree-sitter-org',
-    revision = 'main',
-    files = {'src/parser.c', 'src/scanner.cc'},
-  },
-  filetype = 'org',
-}
-require'nvim-treesitter.configs'.setup {
-    autotag = {
-    enable = true,
-  },
-  rainbow = {
-	  enable = true,
-	  extended_mode = true,
-	  max_file_lines = nil,},
-  highlight = {
-    enable = true,
-    disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
-    additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
-  },
-  ensure_installed = {'org'}, -- Or run :TSUpdate org
-}
-
-require('orgmode').setup({
-  org_agenda_files = {'~/notes'},
-  org_default_notes_file = '~/notes/notes.org',
-})
-EOF
 lua require('neoscroll').setup()
 call wilder#setup({'modes': [':', '/', '?']})
 call wilder#set_option('renderer', wilder#popupmenu_renderer({
@@ -163,9 +135,8 @@ lua << EOF
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
-      { name = 'vsnip' }, -- For vsnip users.
       -- { name = 'luasnip' }, -- For luasnip users.
-      -- { name = 'ultisnips' }, -- For ultisnips users.
+       { name = 'ultisnips' }, -- For ultisnips users.
       -- { name = 'snippy' }, -- For snippy users.
     }, {
       { name = 'buffer' },
@@ -192,7 +163,6 @@ require'lspconfig'.racket_langserver.setup{}
 require'lspconfig'.texlab.setup{}
 require'lspconfig'.bashls.setup{}
 require'lspconfig'.hls.setup{}
-require('nvim-ts-autotag').setup()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 local lsp_installer = require("nvim-lsp-installer")
@@ -226,7 +196,9 @@ local neogit = require('neogit')
 
 require('rust-tools').setup({})
 neogit.setup {}
+
 EOF
+
 set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
 set tabstop=4
@@ -241,6 +213,8 @@ let g:ale_fixers = {'python': ['autopep8'],
             \           'javascript': ['eslint'],
             \        }
 let g:ale_fix_on_save = 1
+tnoremap <Esc> <C-\><C-n>
+let g:vimwiki_list =[{'path':'~/scratchbox/vimwiki/markdown/','ext':'.md', 'syntax':'markdown'}, {"path":"~/scratchbox/vimwiki/wiki/"}]
 let g:dashboard_custom_header =<< trim END
 =================     ===============     ===============   ========  ========
 \\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //
