@@ -35,7 +35,6 @@ bindsym $mod+Shift+q kill
 # start program launcher
 bindsym $mod+d exec --no-startup-id rofi -font "hack 13" -show run
 
-
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
@@ -118,8 +117,6 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 #navigate workspaces next / previous
-bindsym $mod+Ctrl+l workspace next
-bindsym $mod+Ctrl+h workspace prev
 
 # Workspace names
 # to display names or symbols instead of plain workspace numbers you can use
@@ -223,28 +220,11 @@ mode "$mode_system" {
 }
 
 # Resize window (you can also use the mouse for that)
-bindsym $mod+r mode "resize"
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 5 px or 5 ppt
-        bindsym j resize grow height 5 px or 5 ppt
-        bindsym k resize shrink height 5 px or 5 ppt
-        bindsym l resize grow width 5 px or 5 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
-
-        # exit resize mode: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
+bindsym $mod + Ctrl + h resize grow width 5 px or 5 ppt
+bindsym $mod + Ctrl + j resize shrink height 5 px or 5 ppt
+bindsym $mod + Ctrl + k resize grow height 5 px or 5 ppt
+bindsym $mod + Ctrl + l resize shrink width 5 px or 5 ppt
 
 # Lock screen
 bindsym $mod+9 exec --no-startup-id blurlock
@@ -254,7 +234,6 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nitrogen --restore; sleep 1; picom -b
 #exec --no-startup-id manjaro-hello
 exec --no-startup-id xfce4-power-manager
-exec --no-startup-id blueman-applet
 # exec_always --no-startup-id sbxkb
 exec --no-startup-id xautolock -time 10 -locker blurlock
 exec_always --no-startup-id ff-theme-util
@@ -274,6 +253,7 @@ exec_always --no-startup-id fix_xcursor
  	status_command i3status-rs ~/.config/i3/i3-status-rs.toml
 	position top
     separator_symbol "  " 
+    tray_output       none
 	colors{
         background #27292c
         statusline #F9FAF9
@@ -340,6 +320,7 @@ bindsym $mod+m bar mode toggle
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
 smart_borders on
 
+assign [class="firefox"] → $ws1
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
 set $mode_launcher App launcher
 mode "$mode_launcher" {

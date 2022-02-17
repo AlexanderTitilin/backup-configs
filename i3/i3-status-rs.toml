@@ -4,6 +4,7 @@ icons = "awesome"
 [[block]]
 block = "kdeconnect"
 
+
 [[block]]
 block = "uptime"
 
@@ -19,6 +20,9 @@ format = "{average}"
 collapsed = false
 
 [[block]]
+block = "cpu"
+
+[[block]]
 block = "memory"
 display_type = "memory"
 format_mem = "{mem_used;M}"
@@ -27,6 +31,12 @@ format_mem = "{mem_used;M}"
 block = "networkmanager"
 on_click = "nm-connection-editor"
 device_format = "{icon}{ap}"
+
+[[block]]
+block = "backlight"
+
+[[block]]
+block = "battery"
 
 [[block]]
 block = "time"
