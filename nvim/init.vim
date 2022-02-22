@@ -3,25 +3,21 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'folke/which-key.nvim'
+Plug 'glepnir/dashboard-nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'is0n/jaq-nvim'
+Plug 'w0ng/vim-hybrid'
+Plug 'windwp/nvim-ts-autotag'
+Plug 'Pocco81/AutoSave.nvim'
 Plug 'sbdchd/neoformat'
-Plug 'nvim-neorg/neorg' 
 Plug 'nvim-lua/plenary.nvim'
-Plug 'vimwiki/vimwiki'
-Plug 'michal-h21/vim-zettel'
-Plug 'hylang/vim-hy'
-Plug 'w0ng/vim-hybrid'
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'w0ng/vim-hybrid'
-Plug 'simrat39/rust-tools.nvim'
 Plug 'powerman/vim-plugin-ruscmd'
-Plug 'nvim-lua/plenary.nvim'
 Plug 'TimUntersberger/neogit'
-Plug 'NTBBloodbath/doom-one.nvim'
 Plug 'williamboman/nvim-lsp-installer'
-Plug 'Olical/conjure'
 Plug 'ellisonleao/glow.nvim'
-Plug 'vim-scripts/HTML-AutoCloseTag'
-Plug 'github/copilot.vim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -32,9 +28,7 @@ Plug 'RishabhRD/nvim-lsputils'
 Plug 'neovim/nvim-lspconfig'
 Plug 'glacambre/firenvim'
 Plug 'f-person/git-blame.nvim'
-Plug 'alec-gibson/nvim-tetris'
 Plug 'junegunn/fzf.vim'
-Plug 'glepnir/dashboard-nvim'
 Plug 'gelguy/wilder.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
@@ -44,34 +38,20 @@ Plug 'yamatsum/nvim-cursorline'
 Plug 'SmiteshP/nvim-gps'
 Plug 'beauwilliams/statusline.lua'
 Plug 'marko-cerovac/material.nvim'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-Plug 'ThePrimeagen/vim-be-good'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'hkupty/iron.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tpope/vim-fugitive'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'johngrib/vim-game-snake'
-Plug 'ajh17/spacegray.vim'
-Plug 'tomasr/molokai'
 Plug 'tpope/vim-speeddating'
-Plug 'mattn/calendar-vim'
-Plug 'colepeters/spacemacs-theme.vim'
-Plug 'shougo/neco-vim'
-Plug 'alec-gibson/nvim-tetris'
 Plug 'Townk/vim-autoclose'
 Plug 'vim-scripts/paredit.vim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'ervandew/supertab'
-Plug 'wlangstroth/vim-racket'
 Plug 'danilo-augusto/vim-afterglow'
-Plug 'morhetz/gruvbox'
 Plug 'lervag/vimtex'
 Plug 'netsgnut/arctheme.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'SirVer/ultisnips'
-Plug 'cocopon/iceberg.vim'
-Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 call plug#end()
@@ -96,13 +76,13 @@ let g:Powerline_symbols='unicode'
 set guioptions+=m
 let g:paredit_electric_return=0
 let g:cursorword_highlight = 1
-let g:dashboard_default_executive ='fzf'
 let mapleader = ','
 let maplocalleader = ','
 nnoremap <Leader>s :split<CR>
 nnoremap <Leader>m :VimtexCompile<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <leader>f :CHADopen<CR>
+let g:dashboard_default_executive ='telescope'
 lua require('neoscroll').setup()
 call wilder#setup({'modes': [':', '/', '?']})
 call wilder#set_option('renderer', wilder#popupmenu_renderer({
@@ -172,33 +152,49 @@ lsp_installer.on_server_ready(function(server)
 end)
 local lsp_installer = require("nvim-lsp-installer")
 
-lsp_installer.on_server_ready(function(server)
-    local opts = {}
 
-    if server.name == "rust_analyzer" then
-        -- Initialize the LSP via rust-tools instead
-        require("rust-tools").setup {
-            -- The "server" property provided in rust-tools setup function are the
-            -- settings rust-tools will provide to lspconfig during init.            -- 
-            -- We merge the necessary settings from nvim-lsp-installer (server:get_default_options())
-            -- with the user's own settings (opts).
-            server = vim.tbl_deep_extend("force", server:get_default_options(), opts),
-        }
-        server:attach_buffers()
-    else
-        server:setup(opts)
-    end
-end)
 require'lspconfig'.html.setup {
   capabilities = capabilities,
 }
 local neogit = require('neogit')
-
-require('rust-tools').setup({})
 neogit.setup {}
 
-EOF
+local autosave = require("autosave")
+require('nvim-ts-autotag').setup()
+autosave.setup(
+    {
+        enabled = true,
+        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+        events = {"InsertLeave", "TextChanged"},
+        conditions = {
+            exists = true,
+            filename_is_not = {},
+            filetype_is_not = {},
+            modifiable = true
+        },
+        write_all_buffers = false,
+        on_off_commands = true,
+        clean_command_line_interval = 0,
+        debounce_delay = 135
+    }
+)
 
+require('jaq-nvim').setup{
+    cmds = {
+        default = float,
+        external = {
+            python = "python %",
+            cpp = "g++ % -o $fileBase && /$fileBase"}},
+        ui = {
+            startinsert = true,
+            float = {
+                border ="solid",
+                blend = 1}}}
+require('telescope').setup{}
+local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+require("which-key").setup{}
+require'colorizer'.setup()
+EOF
 set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
 set tabstop=4
@@ -206,33 +202,11 @@ set shiftwidth=4
 set smarttab
 set expandtab 
 set softtabstop=4 
-noremap <leader>p :Glow<CR>
 noremap <leader>c :lua vim.lsp.buf.formatting()<CR>
+inoremap jj <esc>
 luafile $HOME/.config/nvim/plugins.lua
 let g:ale_fixers = {'python': ['autopep8'],
             \           'javascript': ['eslint'],
             \        }
 let g:ale_fix_on_save = 1
 tnoremap <Esc> <C-\><C-n>
-let g:vimwiki_list =[{'path':'~/scratchbox/vimwiki/markdown/','ext':'.md', 'syntax':'markdown'}, {"path":"~/scratchbox/vimwiki/wiki/"}]
-let g:dashboard_custom_header =<< trim END
-=================     ===============     ===============   ========  ========
-\\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //
-||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\/ . . .||
-|| . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||
-||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||
-|| . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\ . . . . ||
-||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\_ . .|. .||
-|| . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\ `-_/| . ||
-||_-' ||  .|/    || ||    \|.  || `-_|| ||_-' ||  .|/    || ||   | \  / |-_.||
-||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \  / |  `||
-||    `'         || ||         `'    || ||    `'         || ||   | \  / |   ||
-||            .===' `===.         .==='.`===.         .===' /==. |  \/  |   ||
-||         .=='   \_|-_ `===. .==='   _|_   `===. .===' _-|/   `==  \/  |   ||
-||      .=='    _-'    `-_  `='    _-'   `-_    `='  _-'   `-_  /|  \/  |   ||
-||   .=='    _-'          '-__\._-'         '-_./__-'         `' |. /|  |   ||
-||.=='    _-'                                                     `' |  /==.||
-=='    _-'                        N E O V I M                         \/   `==
-\   _-'                                                                `-_   /
- `''                                                                      ``'
-END

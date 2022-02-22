@@ -2,6 +2,18 @@ snippet // "Fraction" iA
 \\frac{$1}{$2}$0
 endsnippet
 
+snippet pmat "pmat" iA
+\begin{pmatrix} 
+$1 
+\end{pmatrix} $0
+endsnippet
+
+snippet vmat "vmat" iA
+\begin{vmatrix}
+$1
+\end{vmatrix} $0
+
+endsnippet
 snippet box "Box"
 `!p snip.rv = '┌' + '─' * (len(t[1]) + 2) + '┐'`
 │ $1 │
@@ -30,9 +42,6 @@ snippet head "Head"
 endsnippet
 snippet sr "^2" iA
 ^2
-endsnippet
-snippet cb "^3" iA
-^3
 endsnippet
 
 snippet compl "complement" iA
