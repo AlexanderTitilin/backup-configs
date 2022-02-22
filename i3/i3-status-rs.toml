@@ -1,8 +1,10 @@
 theme = "native"
 icons = "awesome"
 
+
 [[block]]
 block = "kdeconnect"
+format = "{bat_charge}"
 
 
 [[block]]
@@ -37,6 +39,7 @@ block = "backlight"
 
 [[block]]
 block = "battery"
+
 
 [[block]]
 block = "time"
