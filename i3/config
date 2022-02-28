@@ -93,7 +93,7 @@ bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+e layout toggle
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -240,9 +240,10 @@ exec_always --no-startup-id fix_xcursor
 	i3bar_command i3bar
  	status_command i3status-rs ~/.config/i3/i3-status-rs.toml
 	position top
+    tray_output none
     separator_symbol " " 
 	colors{
-        background #27282c
+        background #1d1f21 
         statusline #F9FAF9
         separator  #454947
 	focused_workspace  #595B5B #222D31 #FFFFFF
@@ -282,6 +283,5 @@ mode "$mode_launcher" {
 bindsym $mod+a mode "$mode_launcher"
 exec_always --no-startup-id autotiling
 exec_always --no-startup-id kdeconnect-indicator
-exec_always --no-startup-id nm-applet
 exec_always --no-startup-id setxkbmap -layout "us,ru" -option "grp:caps_toggle,grp_led:caps"
-force_xinerama yes
+exec_always --no-startup-id nm-applet

@@ -3,6 +3,8 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'numToStr/Comment.nvim'
+Plug 'windwp/nvim-autopairs'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'folke/which-key.nvim'
 Plug 'glepnir/dashboard-nvim'
@@ -14,10 +16,7 @@ Plug 'windwp/nvim-ts-autotag'
 Plug 'Pocco81/AutoSave.nvim'
 Plug 'sbdchd/neoformat'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'powerman/vim-plugin-ruscmd'
-Plug 'TimUntersberger/neogit'
 Plug 'williamboman/nvim-lsp-installer'
-Plug 'ellisonleao/glow.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -28,14 +27,12 @@ Plug 'RishabhRD/nvim-lsputils'
 Plug 'neovim/nvim-lspconfig'
 Plug 'glacambre/firenvim'
 Plug 'f-person/git-blame.nvim'
-Plug 'junegunn/fzf.vim'
 Plug 'gelguy/wilder.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'karb94/neoscroll.nvim'
 Plug 'yamatsum/nvim-cursorline'
-Plug 'SmiteshP/nvim-gps'
 Plug 'beauwilliams/statusline.lua'
 Plug 'marko-cerovac/material.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
@@ -43,14 +40,9 @@ Plug 'hkupty/iron.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-speeddating'
-Plug 'Townk/vim-autoclose'
-Plug 'vim-scripts/paredit.vim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'ervandew/supertab'
-Plug 'danilo-augusto/vim-afterglow'
 Plug 'lervag/vimtex'
-Plug 'netsgnut/arctheme.vim'
-Plug 'arcticicestudio/nord-vim'
 Plug 'SirVer/ultisnips'
 Plug 'xolox/vim-misc'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
@@ -115,9 +107,7 @@ lua << EOF
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
-      -- { name = 'luasnip' }, -- For luasnip users.
        { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'snippy' }, -- For snippy users.
     }, {
       { name = 'buffer' },
     })
@@ -156,8 +146,6 @@ local lsp_installer = require("nvim-lsp-installer")
 require'lspconfig'.html.setup {
   capabilities = capabilities,
 }
-local neogit = require('neogit')
-neogit.setup {}
 
 local autosave = require("autosave")
 require('nvim-ts-autotag').setup()
@@ -184,7 +172,11 @@ require('jaq-nvim').setup{
         default = float,
         external = {
             python = "python %",
-            cpp = "g++ % -o $fileBase && /$fileBase"}},
+            cpp = "g++ % -o $fileBase && /$fileBase",
+			javascript = "node %",
+            scheme = "racket %"
+            },
+            },
         ui = {
             startinsert = true,
             float = {
@@ -194,6 +186,8 @@ require('telescope').setup{}
 local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
 require("which-key").setup{}
 require'colorizer'.setup()
+require('nvim-autopairs').setup{}
+require('Comment').setup()
 EOF
 set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
@@ -203,10 +197,10 @@ set smarttab
 set expandtab 
 set softtabstop=4 
 noremap <leader>c :lua vim.lsp.buf.formatting()<CR>
+noremap <leader>j :tabprevious<CR>
+noremap <leader>k :tabnext <CR>
+noremap <leader>r :Jaq <CR>
+noremap <leader>t :tabnew<CR> 
 inoremap jj <esc>
 luafile $HOME/.config/nvim/plugins.lua
-let g:ale_fixers = {'python': ['autopep8'],
-            \           'javascript': ['eslint'],
-            \        }
-let g:ale_fix_on_save = 1
 tnoremap <Esc> <C-\><C-n>

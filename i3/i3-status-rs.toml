@@ -29,16 +29,16 @@ block = "memory"
 display_type = "memory"
 format_mem = "{mem_used;M}"
 
-[[block]]
-block = "networkmanager"
-on_click = "nm-connection-editor"
-device_format = "{icon}{ap}"
 
 [[block]]
 block = "backlight"
 
 [[block]]
 block = "battery"
+
+[[block]]
+block = "net"
+
 
 
 [[block]]
