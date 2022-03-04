@@ -3,6 +3,9 @@ set nocompatible
 syntax enable
 set mouse=a
 call plug#begin('~/.local/share/nvim/site')
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'onsails/lspkind-nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'windwp/nvim-autopairs'
 Plug 'norcalli/nvim-colorizer.lua'
@@ -41,14 +44,12 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-speeddating'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'ervandew/supertab'
 Plug 'lervag/vimtex'
 Plug 'SirVer/ultisnips'
 Plug 'xolox/vim-misc'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 call plug#end()
-set background=dark
-colorscheme hybrid 
+colorscheme hybrid
 set smartcase 
 set smarttab 
 let g:rehash256 = 1
@@ -80,54 +81,37 @@ call wilder#setup({'modes': [':', '/', '?']})
 call wilder#set_option('renderer', wilder#popupmenu_renderer({
       \ 'highlighter': wilder#basic_highlighter(),
       \ }))
+set completeopt=menu,menuone
 lua << EOF
-  -- Setup nvim-cmp.
-  local cmp = require'cmp'
 
-  cmp.setup({
-    snippet = {
-      -- REQUIRED - you must specify a snippet engine
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-        -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
-      end,
-    },
-    mapping = {
-      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    },
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-       { name = 'ultisnips' }, -- For ultisnips users.
-    }, {
-      { name = 'buffer' },
-    })
-  })
-
+local cmp = require 'cmp'
+local luasnip = require 'luasnip'
   cmp.setup.cmdline('/', {
-    sources = {
+       sources = {
       { name = 'buffer' }
     }
-  })
-
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
+})
+cmp.setup {
+    mapping = {
+    ['<C-s>'] = cmp.mapping.select_prev_item(),
+    ['<C-w>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+       behavior = cmp.ConfirmBehavior.Replace,
+      select = true
+    }
+  },
+  sources = {
+    {name = 'nvim_lsp'},
+    { name = 'luasnip' },
+    { name = 'buffer'}
+  },
+}
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local nvim_lsp = require('lspconfig')
 require'lspconfig'.pylsp.setup{}
 require'lspconfig'.racket_langserver.setup{}
 require'lspconfig'.texlab.setup{}
@@ -141,12 +125,14 @@ lsp_installer.on_server_ready(function(server)
     server:setup(opts)
 end)
 local lsp_installer = require("nvim-lsp-installer")
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-
-require'lspconfig'.html.setup {
-  capabilities = capabilities,
+  require'lspconfig'.html.setup {
+  capabilities = capabilities
 }
-
+end
 local autosave = require("autosave")
 require('nvim-ts-autotag').setup()
 autosave.setup(
@@ -166,13 +152,25 @@ autosave.setup(
         debounce_delay = 135
     }
 )
+local lspkind = require('lspkind')
+cmp.setup {
+  formatting = {
+    format = lspkind.cmp_format({
+      mode = 'symbol', 
+      maxwidth = 50, 
 
+      before = function (entry, vim_item)
+        return vim_item
+      end
+    })
+  }
+}
 require('jaq-nvim').setup{
     cmds = {
-        default = float,
+        default = term,
         external = {
             python = "python %",
-            cpp = "g++ % -o $fileBase && /$fileBase",
+            cpp = "g++ % -o $fileBase -O2 -lfinal && /$fileBase",
 			javascript = "node %",
             scheme = "racket %"
             },
