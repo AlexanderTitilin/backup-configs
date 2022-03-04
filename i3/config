@@ -48,7 +48,6 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
 # Start Applications
-bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
 # bindsym $mod+F3 exec ranger
 bindsym $mod+t exec --no-startup-id pkill picom
 bindsym $mod+Ctrl+t exec --no-startup-id picom -b -c
@@ -93,7 +92,7 @@ bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle
+bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -255,7 +254,6 @@ exec_always --no-startup-id fix_xcursor
  }}
 
 
-bindsym $mod+m bar mode toggle
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
@@ -268,7 +266,6 @@ bindsym $mod+m bar mode toggle
 
 smart_borders on
 smart_gaps on
-assign [class="firefox"] → $ws1
 set $mode_launcher App launcher
 mode "$mode_launcher" {
 	bindsym 1 exec neovide
