@@ -3,6 +3,6 @@ iron.core.set_config {
   preferred = {
     python = "ipython",
     javascript = "node",
-    sicp = "racket",
+    racket = "racket"
   }
 }

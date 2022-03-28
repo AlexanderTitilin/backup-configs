@@ -1,8 +1,16 @@
-filetype plugin indent on
+filetype plugin on
 set nocompatible
-syntax enable
+syntax on
 set mouse=a
+set termguicolors
+set nohlsearch
 call plug#begin('~/.local/share/nvim/site')
+Plug 'neovimhaskell/haskell-vim'
+Plug 'preservim/nerdtree'
+Plug 'kovisoft/slimv'
+Plug 'nvim-neorg/neorg'  
+Plug 'nvim-lua/plenary.nvim'
+Plug 'mattn/emmet-vim'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'onsails/lspkind-nvim'
@@ -39,7 +47,6 @@ Plug 'yamatsum/nvim-cursorline'
 Plug 'beauwilliams/statusline.lua'
 Plug 'marko-cerovac/material.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'hkupty/iron.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-speeddating'
@@ -47,7 +54,6 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'lervag/vimtex'
 Plug 'SirVer/ultisnips'
 Plug 'xolox/vim-misc'
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 call plug#end()
 colorscheme hybrid
 set smartcase 
@@ -60,9 +66,9 @@ let g:vimtex_compiler_progname = 'nvr'
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let g:slimv_swank_cmd = ':terminal  sbcl --load ~/.local/share/nvim/site/slimv/slime/start-swank.lisp'
+let g:slimv_leader = '\'
 set number 
-set relativenumber
-set termguicolors
 set guifont=Hack\ Nerd\ Font\ Mono:h13
 let g:notes_suffix = '.txt'
 let g:Powerline_symbols='unicode' 
@@ -74,7 +80,7 @@ let maplocalleader = ','
 nnoremap <Leader>s :split<CR>
 nnoremap <Leader>m :VimtexCompile<CR>
 nnoremap <Leader>w :w<CR>
-nnoremap <leader>f :CHADopen<CR>
+nnoremap <leader>f :NERDTree<CR>
 let g:dashboard_default_executive ='telescope'
 lua require('neoscroll').setup()
 call wilder#setup({'modes': [':', '/', '?']})
@@ -167,12 +173,13 @@ cmp.setup {
 }
 require('jaq-nvim').setup{
     cmds = {
-        default = term,
         external = {
             python = "python %",
             cpp = "g++ % -o $fileBase -O2 -lfinal && /$fileBase",
 			javascript = "node %",
-            scheme = "racket %"
+            scheme = "racket %",
+            lisp = "sbcl --load %",
+            haskell = "stack runghc %"
             },
             },
         ui = {
@@ -186,6 +193,41 @@ require("which-key").setup{}
 require'colorizer'.setup()
 require('nvim-autopairs').setup{}
 require('Comment').setup()
+require('neorg').setup{
+     load = {
+        ["core.defaults"] = {},
+        ["core.norg.dirman"] = {
+            config = {
+                workspaces = {
+                    plans = "~/notes/plans"
+                }
+            }
+        }
+    }
+}
+local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+
+parser_configs.norg_meta = {
+    install_info = {
+        url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
+        files = { "src/parser.c" },
+        branch = "main"
+    },
+}
+
+parser_configs.norg_table = {
+    install_info = {
+        url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
+        files = { "src/parser.c" },
+        branch = "main"
+    },
+}
+require('nvim-treesitter.configs').setup {
+    ensure_installed = { "norg", "norg_meta", "norg_table", "haskell", "cpp", "c", "javascript", "markdown" },
+    highlight = { 
+        enable = true,
+    }
+}
 EOF
 set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
@@ -194,11 +236,12 @@ set shiftwidth=4
 set smarttab
 set expandtab 
 set softtabstop=4 
-noremap <leader>c :lua vim.lsp.buf.formatting()<CR>
+noremap <leader>c :Neoformat<CR>
 noremap <leader>j :tabprevious<CR>
 noremap <leader>k :tabnext <CR>
-noremap <leader>r :Jaq <CR>
+noremap <leader>r :Jaq bang<CR>
 noremap <leader>t :tabnew<CR> 
 inoremap jj <esc>
-luafile $HOME/.config/nvim/plugins.lua
+inoremap uu <esc>o
+inoremap aa <esc>f)a
 tnoremap <Esc> <C-\><C-n>
