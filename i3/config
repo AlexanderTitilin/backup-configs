@@ -1,12 +1,11 @@
 # i3 config file (v4) Please see http://i3wm.org/docs/userguide.html for a complete reference!
-
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod4
 # set default desktop layout (default is tiling)
 # workspace_layout tabbed <stacking|tabbed>
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
-default_border pixel 0
+default_border none
 default_floating_border normal
 
 # Hide borders
@@ -30,7 +29,7 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id rofi -font "hack 13" -show run
+bindsym $mod+d exec --no-startup-id rofi -font "JetBrais Mono 13" -show run
 
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
@@ -135,7 +134,7 @@ bindsym $mod+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
-
+bindsym $mod+g exec wmfocus
 # Move focused container to workspace
 bindsym $mod+Ctrl+1 move container to workspace $ws1
 bindsym $mod+Ctrl+2 move container to workspace $ws2
@@ -231,28 +230,28 @@ exec --no-startup-id nitrogen --restore; sleep 1; picom -b
 #exec --no-startup-id manjaro-hello
 exec --no-startup-id xfce4-power-manager
 # exec_always --no-startup-id sbxkb
-exec --no-startup-id xautolock -time 10 -locker blurlock
+# exec --no-startup-id xautolock -time 10 -locker blurlock
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 
- bar {
-	i3bar_command i3bar
- 	status_command i3status-rs ~/.config/i3/i3-status-rs.toml
-	position top
-    separator_symbol " " 
-    tray_output none
-	colors{
-        background #1d1f21 
-        statusline #F9FAF9
-        separator  #454947
-	    focused_workspace  #595B5B #222D31 #FFFFFF
-        active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #383838 #FFFFFF
-        binding_mode       #16a085 #2C2C2C #F9FAF9
-        urgent_workspace   #16a085 #FDF6E3 #d27c7b
-  	
- }}
-
+ # bar {
+	# i3bar_command i3bar
+ # 	status_command i3status-rs ~/.config/i3/i3-status-rs.toml
+	# position top
+ #    separator_symbol " " 
+ #    tray_output none
+	# colors{
+ #        background #1d1f21 
+ #        statusline #F9FAF9
+ #        separator  #454947
+	#     focused_workspace  #595B5B #222D31 #FFFFFF
+ #        active_workspace   #595B5B #353836 #FDF6E3
+ #        inactive_workspace #595B5B #383838 #FFFFFF
+ #        binding_mode       #16a085 #2C2C2C #F9FAF9
+ #        urgent_workspace   #16a085 #FDF6E3 #d27c7b
+ #  	
+ # }}
+exec_always --no-startup-id sh ~/.config/polybar/launch.sh 
 
 
 # Theme colors
@@ -266,19 +265,22 @@ exec_always --no-startup-id fix_xcursor
 
 smart_borders on
 smart_gaps on
+# gaps outer 10
+# gaps inner 15
 set $mode_launcher App launcher
 mode "$mode_launcher" {
-	bindsym 1 exec neovide
-	bindsym 2 exec firefox
-	bindsym 3 exec telegram-desktop
-	bindsym 4 exec zathura
-	bindsym 5 exec alacritty -e vifm 
+	bindsym 1 exec neovide; mode "default"
+	bindsym 2 exec firefox; mode "default"
+	bindsym 3 exec kotatogram-desktop; mode "default"
+	bindsym 4 exec alacritty -e vifm ; mode "default"
 	bindsym Escape mode "default"
 	bindsym Return mode "default"
 
 }
 bindsym $mod+a mode "$mode_launcher"
 exec_always --no-startup-id autotiling
-exec_always --no-startup-id kdeconnect-indicator
 exec_always --no-startup-id setxkbmap -layout "us,ru" -option "grp:caps_toggle"
 exec_always --no-startup-id nm-applet
+exec_always --no-startup-id warpd
+exec_always --no-startup-id kdeconnect-indicator 
+exec_always --no-startup-id xrandr --output HDMI1 --auto

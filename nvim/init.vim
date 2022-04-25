@@ -5,11 +5,11 @@ set mouse=a
 set termguicolors
 set nohlsearch
 call plug#begin('~/.local/share/nvim/site')
+Plug 'vifm/vifm.vim'
+Plug 's1n7ax/nvim-terminal'
+Plug 'rafamadriz/neon'
 Plug 'neovimhaskell/haskell-vim'
-Plug 'preservim/nerdtree'
 Plug 'kovisoft/slimv'
-Plug 'nvim-neorg/neorg'  
-Plug 'nvim-lua/plenary.nvim'
 Plug 'mattn/emmet-vim'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
@@ -17,7 +17,6 @@ Plug 'onsails/lspkind-nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'windwp/nvim-autopairs'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'folke/which-key.nvim'
 Plug 'glepnir/dashboard-nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -55,21 +54,28 @@ Plug 'lervag/vimtex'
 Plug 'SirVer/ultisnips'
 Plug 'xolox/vim-misc'
 call plug#end()
-colorscheme hybrid
 set smartcase 
 set smarttab 
+colorscheme neon
+let g:neon_style = 'doom'
+let g:neon_italic_keyword = v:true
+let g:neon_italic_boolean = v:true
+let g:neon_italic_function = v:true
 let g:rehash256 = 1
 let g:tex_flavor = 'latex' 
 let g:vimtex_quickfix_mode = 0
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_compiler_progname = 'nvr'
+let g:vimtex_compiler_engine = 'lualatex'
+ set conceallevel=1
+let g:tex_conceal='abdmg' 
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 let g:slimv_swank_cmd = ':terminal  sbcl --load ~/.local/share/nvim/site/slimv/slime/start-swank.lisp'
 let g:slimv_leader = '\'
 set number 
-set guifont=Hack\ Nerd\ Font\ Mono:h13
+set guifont=JetBrainsMono\ Nerd\ Font:h12
 let g:notes_suffix = '.txt'
 let g:Powerline_symbols='unicode' 
 set guioptions+=m
@@ -80,7 +86,6 @@ let maplocalleader = ','
 nnoremap <Leader>s :split<CR>
 nnoremap <Leader>m :VimtexCompile<CR>
 nnoremap <Leader>w :w<CR>
-nnoremap <leader>f :NERDTree<CR>
 let g:dashboard_default_executive ='telescope'
 lua require('neoscroll').setup()
 call wilder#setup({'modes': [':', '/', '?']})
@@ -104,11 +109,8 @@ cmp.setup {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm {
-       behavior = cmp.ConfirmBehavior.Replace,
-      select = true
-    }
+    ['<C-e>'] = cmp.mapping.close()
+    
   },
   sources = {
     {name = 'nvim_lsp'},
@@ -118,7 +120,6 @@ cmp.setup {
 }
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local nvim_lsp = require('lspconfig')
-require'lspconfig'.pylsp.setup{}
 require'lspconfig'.racket_langserver.setup{}
 require'lspconfig'.texlab.setup{}
 require'lspconfig'.bashls.setup{}
@@ -179,7 +180,7 @@ require('jaq-nvim').setup{
 			javascript = "node %",
             scheme = "racket %",
             lisp = "sbcl --load %",
-            haskell = "stack runghc %"
+            haskell = "stack ghc  %  && $fileBase"
             },
             },
         ui = {
@@ -189,45 +190,15 @@ require('jaq-nvim').setup{
                 blend = 1}}}
 require('telescope').setup{}
 local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
-require("which-key").setup{}
 require'colorizer'.setup()
 require('nvim-autopairs').setup{}
 require('Comment').setup()
-require('neorg').setup{
-     load = {
-        ["core.defaults"] = {},
-        ["core.norg.dirman"] = {
-            config = {
-                workspaces = {
-                    plans = "~/notes/plans"
-                }
-            }
-        }
-    }
-}
-local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+require('nvim-terminal').setup({
+    window = {
+        position = 'rightbelow',
+        },
+})
 
-parser_configs.norg_meta = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
-        files = { "src/parser.c" },
-        branch = "main"
-    },
-}
-
-parser_configs.norg_table = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
-        files = { "src/parser.c" },
-        branch = "main"
-    },
-}
-require('nvim-treesitter.configs').setup {
-    ensure_installed = { "norg", "norg_meta", "norg_table", "haskell", "cpp", "c", "javascript", "markdown" },
-    highlight = { 
-        enable = true,
-    }
-}
 EOF
 set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
@@ -239,9 +210,9 @@ set softtabstop=4
 noremap <leader>c :Neoformat<CR>
 noremap <leader>j :tabprevious<CR>
 noremap <leader>k :tabnext <CR>
-noremap <leader>r :Jaq bang<CR>
+noremap <leader>r :Jaq terminal<CR>
 noremap <leader>t :tabnew<CR> 
+noremap <leader>f :Vifm<CR>
 inoremap jj <esc>
-inoremap uu <esc>o
-inoremap aa <esc>f)a
 tnoremap <Esc> <C-\><C-n>
+tnoremap xx <C-\><C-n>
