@@ -6,6 +6,9 @@ set termguicolors
 set nohlsearch
 call plug#begin('~/.local/share/nvim/site')
 Plug 'vifm/vifm.vim'
+Plug 'max397574/better-escape.nvim'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+Plug 'm-demare/hlargs.nvim'
 Plug 's1n7ax/nvim-terminal'
 Plug 'rafamadriz/neon'
 Plug 'neovimhaskell/haskell-vim'
@@ -25,7 +28,6 @@ Plug 'w0ng/vim-hybrid'
 Plug 'windwp/nvim-ts-autotag'
 Plug 'Pocco81/AutoSave.nvim'
 Plug 'sbdchd/neoformat'
-Plug 'nvim-lua/plenary.nvim'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -109,13 +111,14 @@ cmp.setup {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close()
+    ['<C-e>'] = cmp.mapping.abort()
     
   },
   sources = {
     {name = 'nvim_lsp'},
-    { name = 'luasnip' },
-    { name = 'buffer'}
+    { name = 'ultisnips' },
+    { name = 'buffer'},
+    { name = 'path' },
   },
 }
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -124,6 +127,7 @@ require'lspconfig'.racket_langserver.setup{}
 require'lspconfig'.texlab.setup{}
 require'lspconfig'.bashls.setup{}
 require'lspconfig'.hls.setup{}
+require'lspconfig'.clangd.setup{}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 local lsp_installer = require("nvim-lsp-installer")
@@ -176,7 +180,7 @@ require('jaq-nvim').setup{
     cmds = {
         external = {
             python = "python %",
-            cpp = "g++ % -o $fileBase -O2 -lfinal && /$fileBase",
+            cpp = "g++ % -o $fileBase -O2 -lfinal && $fileBase",
 			javascript = "node %",
             scheme = "racket %",
             lisp = "sbcl --load %",
@@ -198,7 +202,10 @@ require('nvim-terminal').setup({
         position = 'rightbelow',
         },
 })
-
+require('hlargs').setup()
+require('better_escape').setup{
+    mapping = {"jj"},
+}
 EOF
 set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
@@ -213,6 +220,7 @@ noremap <leader>k :tabnext <CR>
 noremap <leader>r :Jaq terminal<CR>
 noremap <leader>t :tabnew<CR> 
 noremap <leader>f :Vifm<CR>
-inoremap jj <esc>
+noremap <leader>cn :lua vim.lsp.buf.rename()<CR>
+" inoremap jj <esc>
 tnoremap <Esc> <C-\><C-n>
 tnoremap xx <C-\><C-n>
