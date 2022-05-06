@@ -36,7 +36,7 @@ bindsym $mod+d exec --no-startup-id rofi -font "JetBrais Mono 13" -show run
 ################################################################################################
 
 exec --no-startup-id volumeicon
-bindsym $mod+Ctrl+m exec $term -e 'alsamixer'
+bindsym $mod+Ctrl+m exec $term -e 'alsamixer' 
 
 
 ################################################################################################
@@ -52,7 +52,7 @@ bindsym $mod+Ctrl+t exec --no-startup-id picom -b -c
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
 bindsym $mod+s exec --no-startup-id i3-scrot
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
-bindsym $mod+Ctrl+s --release exec --no-startup-id i3-scrot -s
+bindsym $modCtrl+s --release exec --no-startup-id i3-scrot -s
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
 # focus_follows_mouse no
@@ -263,10 +263,9 @@ exec_always --no-startup-id sh ~/.config/polybar/launch.sh
   client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
   client.placeholder      #000000 #0c0c0c #ffffff #000000 
   client.background       #2B2C2B
-
 smart_borders on
 smart_gaps on
-# gaps outer 10
+# gaps outer 5
 # gaps inner 15
 set $mode_launcher App launcher
 mode "$mode_launcher" {

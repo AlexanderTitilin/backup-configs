@@ -1,10 +1,14 @@
 filetype plugin on
-set nocompatible
 syntax on
 set mouse=a
 set termguicolors
 set nohlsearch
 call plug#begin('~/.local/share/nvim/site')
+Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
+Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+Plug 'alvarosevilla95/luatab.nvim'
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'vifm/vifm.vim'
 Plug 'max397574/better-escape.nvim'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
@@ -45,7 +49,6 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'karb94/neoscroll.nvim'
 Plug 'yamatsum/nvim-cursorline'
-Plug 'beauwilliams/statusline.lua'
 Plug 'marko-cerovac/material.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -204,9 +207,14 @@ require('nvim-terminal').setup({
 })
 require('hlargs').setup()
 require('better_escape').setup{
-    mapping = {"jj"},
-}
+    mapping = {"jj"},}
+require('lualine').setup(
+    {options = { theme = 'powerline'}}
+)
+require('luatab').setup({})
+
 EOF
+let g:coq_settings = { 'auto_start': v:true } 
 set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
 set tabstop=4
@@ -221,6 +229,6 @@ noremap <leader>r :Jaq terminal<CR>
 noremap <leader>t :tabnew<CR> 
 noremap <leader>f :Vifm<CR>
 noremap <leader>cn :lua vim.lsp.buf.rename()<CR>
-" inoremap jj <esc>
+" inoremap jj <esc
 tnoremap <Esc> <C-\><C-n>
 tnoremap xx <C-\><C-n>
