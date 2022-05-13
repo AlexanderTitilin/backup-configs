@@ -1,12 +1,14 @@
 filetype plugin on
 syntax on
 set mouse=a
-set termguicolors
 set nohlsearch
 call plug#begin('~/.local/share/nvim/site')
-Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
-Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
-Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+Plug 'renerocksai/calendar-vim'
+Plug 'renerocksai/telekasten.nvim'
+Plug 'hrsh7th/cmp-omni'
+Plug 'kdheepak/cmp-latex-symbols'
+Plug 'hrsh7th/cmp-calc'
+Plug 'tpope/vim-surround'
 Plug 'alvarosevilla95/luatab.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'vifm/vifm.vim'
@@ -83,7 +85,7 @@ set number
 set guifont=JetBrainsMono\ Nerd\ Font:h12
 let g:notes_suffix = '.txt'
 let g:Powerline_symbols='unicode' 
-set guioptions+=m
+" set guioptions+=m
 let g:paredit_electric_return=0
 let g:cursorword_highlight = 1
 let mapleader = ','
@@ -122,6 +124,9 @@ cmp.setup {
     { name = 'ultisnips' },
     { name = 'buffer'},
     { name = 'path' },
+    {name = 'calc'},
+    {name = 'latex_symbols'},
+    {name = 'omni'}
   },
 }
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -212,9 +217,17 @@ require('lualine').setup(
     {options = { theme = 'powerline'}}
 )
 require('luatab').setup({})
+local home = vim.fn.expand("~/zettelkasten")
 
+require('telekasten').setup({
+    home = home,
+    take_over_my_home = true,
+
+    dailies      = home .. '/' .. 'daily',
+    weeklies     = home .. '/' .. 'weekly',
+    extension    = ".md",
+})
 EOF
-let g:coq_settings = { 'auto_start': v:true } 
 set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
 set tabstop=4
@@ -232,3 +245,23 @@ noremap <leader>cn :lua vim.lsp.buf.rename()<CR>
 " inoremap jj <esc
 tnoremap <Esc> <C-\><C-n>
 tnoremap xx <C-\><C-n>
+let g:dashboard_custom_header = [
+   \' ███████████████████████████ ',
+   \' ███████▀▀▀░░░░░░░▀▀▀███████ ',
+   \' ████▀░░░░░░░░░░░░░░░░░▀████ ',
+   \' ███│░░░░░░░░░░░░░░░░░░░│███ ',
+   \' ██▌│░░░░░░░░░░░░░░░░░░░│▐██ ',
+   \' ██░└┐░░░░░░░░░░░░░░░░░┌┘░██ ',
+   \' ██░░└┐░░░░░░░░░░░░░░░┌┘░░██ ',
+   \' ██░░┌┘▄▄▄▄▄░░░░░▄▄▄▄▄└┐░░██ ',
+   \' ██▌░│██████▌░░░▐██████│░▐██ ',
+   \' ███░│▐███▀▀░░▄░░▀▀███▌│░███ ',
+   \' ██▀─┘░░░░░░░▐█▌░░░░░░░└─▀██ ',
+   \' ██▄░░░▄▄▄▓░░▀█▀░░▓▄▄▄░░░▄██ ',
+   \' ████▄─┘██▌░░░░░░░▐██└─▄████ ',
+   \' █████░░▐█─┬┬┬┬┬┬┬─█▌░░█████ ',
+   \' ████▌░░░▀┬┼┼┼┼┼┼┼┬▀░░░▐████ ',
+   \' █████▄░░░└┴┴┴┴┴┴┴┘░░░▄█████ ',
+   \' ███████▄░░░░░░░░░░░▄███████ ',
+   \' ██████████▄▄▄▄▄▄▄██████████ ',
+   \ ]
