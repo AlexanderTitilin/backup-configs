@@ -1,4 +1,4 @@
-" vim: filetype=vifm :
+
 " Sample configuration file for vifm (last updated: 31 August, 2021)
 " You can edit this file by hand.
 " The " character at the beginning of a line comments out the line.
@@ -220,7 +220,7 @@ filetype {*.[1-8]},<text/troff> man ./%c
 " Images
 filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
     \ {View in feh}
-    \ feh -d %d --start-at %d/%c 2> /dev/null
+    \ feh -d %d --start-at %d/%c 3> /dev/null &
 " OpenRaster
 filextype *.ora
         \ {Edit in MyPaint}
@@ -305,7 +305,7 @@ filextype {*.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt},
          \<application/vnd.openxmlformats-officedocument.*,
           \application/msword,
           \application/vnd.ms-excel>
-        \ libreoffice %f &
+        \onlyoffice-desktopeditors %f &
 
 " TuDu files
 filetype *.tudu tudu -f %c
@@ -466,37 +466,6 @@ nnoremap <c-u> <c-w>x
 "
 " let $VIFM_SERVER_NAME = v:servername
 
-    fileviewer *.pdf
-        \ vifmimg pdf %px %py %pw %ph %c
-        \ %pc
-        \ vifmimg clear
-
-    fileviewer *.djvu
-        \ vifmimg djvu %px %py %pw %ph %c
-        \ %pc
-        \ vifmimg clear
-
-    fileviewer *.epub
-        \ vifmimg epub %px %py %pw %ph %c
-        \ %pc
-        \ vifmimg clear
-
-    fileviewer <video/*>
-        \ vifmimg video %px %py %pw %ph %c
-        \ %pc
-        \ vifmimg clear
-
-    fileviewer <image/*>
-        \ vifmimg draw %px %py %pw %ph %c
-        \ %pc
-        \ vifmimg clear
-
-    fileviewer <audio/*>
-        \ vifmimg audio %px %py %pw %ph %c
-        \ %pc
-        \ vifmimg clear
-
-    fileviewer <font/*>
-        \ vifmimg font %px %py %pw %ph %c
-        \ %pc
-        \ vifmimg clear
+filetype *.ftp
+       \ {Mount with CurlFtpFS}
+       \ FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINATION_DIR %CLEAR,

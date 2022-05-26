@@ -227,6 +227,7 @@ require('telekasten').setup({
     weeklies     = home .. '/' .. 'weekly',
     extension    = ".md",
 })
+
 EOF
 set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
@@ -242,9 +243,13 @@ noremap <leader>r :Jaq terminal<CR>
 noremap <leader>t :tabnew<CR> 
 noremap <leader>f :Vifm<CR>
 noremap <leader>cn :lua vim.lsp.buf.rename()<CR>
-" inoremap jj <esc
+noremap <leader>zn :Telekasten new_note<CR>
+noremap <leader>zf :Telekasten find_notes<CR>
+noremap <leader>zc :Telekasten show_calendar<CR>
+noremap <leader>zi :Telekasten insert_link<CR>
+noremap <leader>zg :Telekasten follow_link<CR>
+
 tnoremap <Esc> <C-\><C-n>
-tnoremap xx <C-\><C-n>
 let g:dashboard_custom_header = [
    \' ███████████████████████████ ',
    \' ███████▀▀▀░░░░░░░▀▀▀███████ ',
