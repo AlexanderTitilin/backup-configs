@@ -1,10 +1,12 @@
 #!/bin/bash
+killall -q volumeicon &
+while pgrep -u $UID -x volumeicon >/dev/null; do sleep 1; done
 setxkbmap -layout "us,ru" -option "grp:caps_toggle" &
 nitrogen --restore &
+volumeicon &
 picom -b &
 nm-applet &
-warpd &
 xrandr --output HDMI1 --auto &
-exec --no-startup-id xfce4-power-manager &
-/home/mod/.config/polybar/launch.sh
+xfce4-power-manager &
+~/.config/qtile/launch.sh &
 
