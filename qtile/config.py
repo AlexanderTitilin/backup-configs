@@ -27,12 +27,17 @@ keys = [
     ),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key([mod, "control"], "h", lazy.layout.grow_left(),
+                                 desc="Grow window to the left"),
     Key(
         [mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"
     ),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([mod, "control"], "j", lazy.layout.grow_down(),
+        lazy.layout.grow_main().when(layout = "spiral"),
+        desc="Grow window down"),
+    Key([mod, "control"], "k", lazy.layout.grow_up(),
+        lazy.layout.shrink_main().when(layout="spiral"),
+        desc="Grow window up"),
     Key([mod, "mod1"], "j", lazy.layout.flip_down()),
     Key([mod, "mod1"], "k", lazy.layout.flip_up()),
     Key([mod, "mod1"], "h", lazy.layout.flip_left()),
@@ -97,21 +102,23 @@ colors = {
     "green": "#769972",
     "yellow": "#e1a574",
     "blue": "#7693ac",
+    "white" : "#FFFFFF",
+    "black": "#000000",
 }
 layouts = [
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     layout.Spiral(border_width=0, ratio=0.57, new_client_position="after_current"),
+    layout.Stack(border_width = 0),
     layout.Bsp(border_width=0),
     layout.Max(),
-    layout.MonadTall(border_width=0, ratio=0.57),
     # layout.TreeTab(),
 ]
-floating_layout = layout.Floating(border_focus=colors["primary"], border_width=10)
+floating_layout = layout.Floating(border_width=0)
 
 widget_defaults = dict(
-    font="JetBrains Mono",
+    font="JetBrains Mono ",
     fontsize=15,
     padding=3,
     padding_x=1,
@@ -124,42 +131,51 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.TextBox(fmt="QLAY", foreground=colors["primary"]),
-                widget.CurrentLayout(),
+                arrow,
+                widget.CurrentLayout(
+                    background=colors["blue"]
+                    ),
                 widget.GroupBox(
+                    background=colors["blue"],
                     padding=1,
                     font="JetBrains Mono Nerd Font",
-                    highlight_color=[
-                        colors["background"],
-                    ],
                     highlight_method="line",
-                    this_current_screen_border=colors["primary"],
+                    highlight_color = [
+                        colors["blue"],
+                        colors["blue"]
+                        ],
+                    this_current_screen_border=colors["white"],
                     urgent_border=colors["red"],
+                    hide_unused =  True,
                 ),
                 widget.WindowName(),
                 widget.TextBox(fmt=" "),
                 widget.Clock(format="%Y-%m-%d %H:%M:%S", foreground=colors["primary"]),
                 widget.Spacer(),
                 arrow,
+                widget.TextBox(
+                    fmt = "",
+                    background = colors["blue"],
+                    fontsize = 35
+                    ),
                 widget.OpenWeather(
                     location="Saint Petersburg",
                     format="{main_temp}°{units_temperature} {humidity}% ",
                     background=colors["blue"],
                     padding=5,
                 ),
-                widget.TextBox(fmt="TEMP", foreground=colors["primary"]),
-                arrow,
+                widget.TextBox(fmt="", background=colors["blue"],
+                    fontsize = 20),
                 widget.ThermalSensor(background=colors["blue"]),
-                widget.TextBox(fmt="CPU", foreground=colors["primary"]),
-                arrow,
+                widget.TextBox(fmt="", background=colors["blue"],
+                    fontsize=20),
                 widget.CPU(format="{load_percent}%", background=colors["blue"]),
-                widget.TextBox(fmt="BAT", foreground=colors["primary"]),
-                arrow,
+                widget.TextBox(fmt="", background=colors["blue"]),
                 widget.Battery(format="{percent:2.0%}", background=colors["blue"]),
-                widget.TextBox(fmt="MEM", foreground=colors["primary"]),
-                arrow,
+                widget.TextBox(fmt="", background=colors["blue"],
+                    fontsize = 25),
                 widget.Memory(format="{MemUsed:.0f}{mm} ", background=colors["blue"]),
-                # widget.Systray(),
+
             ],
             25,
         ),
@@ -195,6 +211,5 @@ def autostart():
 
 
 auto_minimize = True
-
 wl_input_rules = None
 wmname = "Qtile"
