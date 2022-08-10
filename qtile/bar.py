@@ -5,14 +5,14 @@ import subprocess
 
 colors = {
     "background": "#2b2d37",
-    "foreground": "#c5cdd9",
-    "primary": "#da8548",
+    "foreground": "#c6d0f5",
+    "primary": "#ef9f76",
     "red": "#b05655",
     "green": "#769972",
     "yellow": "#e1a574",
-    "blue": "#7693ac",
     "white" : "#FFFFFF",
     "black": "#000000",
+    "blue": "#7693ac",
 }
 
 
@@ -35,18 +35,16 @@ screens = [
         top=bar.Bar(
             [
                 widget.CurrentLayout(
-                    background=colors["blue"]
                     ),
                 widget.GroupBox(
-                    background=colors["blue"],
                     padding=1,
                     font="JetBrains Mono Nerd Font",
                     highlight_method="line",
                     highlight_color = [
-                        colors["blue"],
-                        colors["blue"]
+                        colors["background"],
+                        colors['background']
                         ],
-                    this_current_screen_border=colors["white"],
+                    this_current_screen_border=colors['yellow'],
                     urgent_border=colors["red"],
                     hide_unused =  True,
                 ),
@@ -87,7 +85,6 @@ screens = [
                     fontsize = 25),
                 widget.Memory(format="{MemUsed:.0f}{mm} ", background=colors["blue"]),
                 # widget.Systray()
-
             ],
             25,
         ),

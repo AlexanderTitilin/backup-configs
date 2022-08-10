@@ -1,17 +1,21 @@
 filetype plugin on
 syntax on
-set mouse=a
+set mouse=nvi
 set nohlsearch
+set noswapfile
 call plug#begin('~/.local/share/nvim/site')
+Plug 'kylechui/nvim-surround'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'mfussenegger/nvim-jdtls'
+Plug 'chaimleib/vim-renpy'
+Plug 'ellisonleao/gruvbox.nvim'
 Plug 'renerocksai/calendar-vim'
 Plug 'renerocksai/telekasten.nvim'
-Plug 'hrsh7th/cmp-omni'
 Plug 'kdheepak/cmp-latex-symbols'
 Plug 'hrsh7th/cmp-calc'
 Plug 'tpope/vim-surround'
 Plug 'alvarosevilla95/luatab.nvim'
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'vifm/vifm.vim'
 Plug 'max397574/better-escape.nvim'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'm-demare/hlargs.nvim'
@@ -48,8 +52,6 @@ Plug 'f-person/git-blame.nvim'
 Plug 'gelguy/wilder.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'p00f/nvim-ts-rainbow'
-Plug 'karb94/neoscroll.nvim'
 Plug 'yamatsum/nvim-cursorline'
 Plug 'marko-cerovac/material.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
@@ -59,7 +61,6 @@ Plug 'tpope/vim-speeddating'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'lervag/vimtex'
 Plug 'SirVer/ultisnips'
-Plug 'xolox/vim-misc'
 call plug#end()
 set smartcase 
 set smarttab 
@@ -94,7 +95,6 @@ nnoremap <Leader>s :split<CR>
 nnoremap <Leader>m :VimtexCompile<CR>
 nnoremap <Leader>w :w<CR>
 let g:dashboard_default_executive ='telescope'
-lua require('neoscroll').setup()
 call wilder#setup({'modes': [':', '/', '?']})
 call wilder#set_option('renderer', wilder#popupmenu_renderer({
       \ 'highlighter': wilder#basic_highlighter(),
@@ -126,7 +126,6 @@ cmp.setup {
     { name = 'path' },
     {name = 'calc'},
     {name = 'latex_symbols'},
-    {name = 'omni'}
   },
 }
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -192,7 +191,8 @@ require('jaq-nvim').setup{
 			javascript = "node %",
             scheme = "racket %",
             lisp = "sbcl --load %",
-            haskell = "stack ghc  %  && $fileBase"
+            haskell = "stack ghc  %  && $fileBase",
+            html = "firefox %"
             },
             },
         ui = {
@@ -227,7 +227,8 @@ require('telekasten').setup({
     weeklies     = home .. '/' .. 'weekly',
     extension    = ".md",
 })
-
+require("nvim-tree").setup()
+require("nvim-surround").setup()
 EOF
 set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
@@ -236,20 +237,28 @@ set shiftwidth=4
 set smarttab
 set expandtab 
 set softtabstop=4 
+let g:user_emmet_leader_key='<C-Z>'
 noremap <leader>c :Neoformat<CR>
 noremap <leader>j :tabprevious<CR>
 noremap <leader>k :tabnext <CR>
 noremap <leader>r :Jaq terminal<CR>
 noremap <leader>t :tabnew<CR> 
-noremap <leader>f :Vifm<CR>
+noremap <leader>f :NvimTreeFocus<CR>
+noremap <leader>F :Telescope find_files<CR>
 noremap <leader>cn :lua vim.lsp.buf.rename()<CR>
+noremap <leader>ca :lua vim.lsp.buf.code_action()<CR>
+noremap <leader>i :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 noremap <leader>zn :Telekasten new_note<CR>
 noremap <leader>zf :Telekasten find_notes<CR>
 noremap <leader>zc :Telekasten show_calendar<CR>
 noremap <leader>zi :Telekasten insert_link<CR>
 noremap <leader>zg :Telekasten follow_link<CR>
-
+nnoremap <leader>p :lua require("nabla").popup()<CR> 
 tnoremap <Esc> <C-\><C-n>
+hi DiagnosticError guifg=White
+hi DiagnosticWarn  guifg=White
+hi DiagnosticInfo  guifg=White
+hi DiagnosticHint  guifg=White
 let g:dashboard_custom_header = [
    \' ███████████████████████████ ',
    \' ███████▀▀▀░░░░░░░▀▀▀███████ ',
