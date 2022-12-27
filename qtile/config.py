@@ -6,7 +6,6 @@ from keys import *
 from bar import *
 from layouts import *
 
-
 dgroups_key_binder = None
 dgroups_app_rules = []  
 follow_mouse_focus = True
@@ -24,4 +23,4 @@ def autostart():
 
 auto_minimize = True
 wl_input_rules = None
-wmname = "Qtile"
+wmname = "LG3D"

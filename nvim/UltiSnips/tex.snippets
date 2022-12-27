@@ -1,3 +1,10 @@
+
+snippet ^ "pow" iA
+^{$1}$0
+endsnippet
+snippet _ "ind" iA
+_{$1}$0
+endsnippet
 snippet // "Fraction" iA
 \\frac{$1}{$2}$0
 endsnippet
@@ -15,6 +22,11 @@ $1
 endsnippet
 
 
+snippet jv "jv" iA
+\begin{lstlisting}[language=Java] 
+$0 
+\end{lstlisting} 
+endsnippet
 
 snippet bmat "bmat" iA
 \begin{bmatrix} 
@@ -39,8 +51,9 @@ snippet head "Head"
 \usepackage[utf8]{inputenc}
 \usepackage[T2A]{fontenc}
 \usepackage[russian]{babel}
-\usepackage{amsthm}
-\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
 \newtheorem{theorem}{Теорема}
 \newtheorem{corollary}{Следствие}[theorem]
 \newtheorem{lemma}[theorem]{Лемма}
@@ -113,10 +126,6 @@ snippet AA "forall" iA
 \forall 
 endsnippet
 
-priority 100
-snippet -> "to" iA
-\to 
-endsnippet
 
 priority 200
 snippet <-> "leftrightarrow" iA
