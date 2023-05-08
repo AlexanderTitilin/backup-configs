@@ -1,9 +1,19 @@
 filetype plugin on
-syntax on
+" syntax on
+set clipboard=unnamedplus
 set mouse=nvi
 set nohlsearch
 set noswapfile
+set termguicolors
 call plug#begin('~/.local/share/nvim/site')
+Plug 'voldikss/vim-mma'
+Plug 'dccsillag/magma-nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'bfredl/nvim-ipy'
+Plug 'mfussenegger/nvim-jdtls'
+Plug 'TimUntersberger/neogit'
+Plug 'andrewferrier/debugprint.nvim'
+Plug 'rebelot/kanagawa.nvim'
+Plug 'NTBBloodbath/doom-one.nvim'
 Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
 Plug 'mfussenegger/nvim-jdtls'
 Plug 'jghauser/mkdir.nvim'
@@ -17,10 +27,8 @@ Plug 'Pocco81/auto-save.nvim'
 Plug 'kylechui/nvim-surround'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'mfussenegger/nvim-jdtls'
-Plug 'chaimleib/vim-renpy'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'renerocksai/calendar-vim'
-Plug 'renerocksai/telekasten.nvim'
 Plug 'kdheepak/cmp-latex-symbols'
 Plug 'hrsh7th/cmp-calc'
 Plug 'tpope/vim-surround'
@@ -33,8 +41,6 @@ Plug 's1n7ax/nvim-terminal'
 Plug 'rafamadriz/neon'
 Plug 'kovisoft/slimv'
 Plug 'mattn/emmet-vim'
-Plug 'saadparwaiz1/cmp_luasnip'
-Plug 'L3MON4D3/LuaSnip'
 Plug 'onsails/lspkind-nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'windwp/nvim-autopairs'
@@ -43,7 +49,6 @@ Plug 'glepnir/dashboard-nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'is0n/jaq-nvim'
-Plug 'w0ng/vim-hybrid'
 Plug 'windwp/nvim-ts-autotag'
 Plug 'sbdchd/neoformat'
 Plug 'williamboman/nvim-lsp-installer'
@@ -54,6 +59,7 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-lsputils'
 Plug 'neovim/nvim-lspconfig'
@@ -73,7 +79,7 @@ Plug 'SirVer/ultisnips'
 call plug#end()
 set smartcase 
 set smarttab 
-colorscheme neon
+colorscheme kanagawa
 " let g:neon_italic_keyword = v:true
 " let g:neon_italic_boolean = v:true
 " let g:neon_italic_function = v:true
@@ -91,10 +97,8 @@ let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 let g:slimv_swank_cmd = ':terminal  sbcl --load ~/.local/share/nvim/site/slimv/slime/start-swank.lisp'
 let g:slimv_leader = '\'
-set number 
 set relativenumber
-set guifont=JetBrainsMono\ Nerd\ Font:h13
-let g:notes_suffix = '.txt'
+set guifont=JetBrainsMono\ Nerd\ Font:h15
 let g:Powerline_symbols='unicode' 
 " set guioptions+=m
 let g:paredit_electric_return=0
@@ -111,32 +115,26 @@ call wilder#set_option('renderer', wilder#popupmenu_renderer({
 set completeopt=menu,menuone
 lua << EOF
 
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
-  cmp.setup.cmdline('/', {
-       sources = {
-      { name = 'buffer' }
-    }
-})
-cmp.setup {
-    mapping = {
-    ['<C-s>'] = cmp.mapping.select_prev_item(),
-    ['<C-w>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort()
-    
-  },
-  sources = {
-    {name = 'nvim_lsp'},
-    { name = 'ultisnips' },
-    { name = 'buffer'},
-    { name = 'path' },
-    {name = 'calc'},
-    {name = 'latex_symbols'},
-  },
-}
+  local cmp = require 'cmp'
+ cmp.setup {
+     mapping = {
+     ['<C-s>'] = cmp.mapping.select_prev_item(),
+     ['<C-w>'] = cmp.mapping.select_next_item(),
+     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+     ['<C-f>'] = cmp.mapping.scroll_docs(4),
+     ['<C-e>'] = cmp.mapping.abort()
+     
+   },
+   sources = {
+      {name = 'nvim_lsp'},
+      {name = 'nvim_lsp_signature_help'},
+      { name = 'ultisnips' },
+      { name = 'buffer'},
+      { name = 'path' },
+      {name = 'calc'},
+      {name = 'latex_symbols'},
+   },
+ }
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local nvim_lsp = require('lspconfig')
 require'lspconfig'.racket_langserver.setup{}
@@ -144,6 +142,7 @@ require'lspconfig'.texlab.setup{}
 require'lspconfig'.bashls.setup{}
 require'lspconfig'.hls.setup{}
 require'lspconfig'.clangd.setup{}
+require'lspconfig'.pylsp.setup{}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 local lsp_installer = require("nvim-lsp-installer")
@@ -164,7 +163,7 @@ require('nvim-ts-autotag').setup()
     
 
 local lspkind = require('lspkind')
-cmp.setup {
+ cmp.setup {
   formatting = {
     format = lspkind.cmp_format({
       mode = 'symbol', 
@@ -204,22 +203,11 @@ require('nvim-terminal').setup({
         },
 })
 require('hlargs').setup()
-require('better_escape').setup{
-    mapping = {"jj"},}
 require('lualine').setup(
-    {options = { theme = 'powerline'}}
+    {options = { theme = 'gruvbox-material'}}
 )
 require('luatab').setup({})
-local home = vim.fn.expand("~/zettelkasten")
 
-require('telekasten').setup({
-    home = home,
-    take_over_my_home = true,
-
-    dailies      = home .. '/' .. 'daily',
-    weeklies     = home .. '/' .. 'weekly',
-    extension    = ".md",
-})
 require("nvim-tree").setup()
 require("nvim-surround").setup()
 require("auto-save").setup()
@@ -228,31 +216,29 @@ require("nvim-treesitter.configs").setup {
         enable = true,
         }
     }
-
 require("barbecue").setup()
 
 local keymap = vim.keymap.set
-local saga = require('lspsaga')
-saga.init_lsp_saga()
-keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
-keymap("n", "<leader>i", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
-keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
-keymap("n", "<leader>i", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
-keymap("n", "<leader>cn", "<cmd>Lspsaga rename<CR>", { silent = true })
-keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
-
-vim.g.neon_italic_keyword = true
-vim.g.neon_italic_function = true
-vim.g.neon_transparent = true
-vim.cmd[[colorscheme neon]]
+require('lspsaga').setup({})
+keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
+keymap("n", "<leader>i", "<cmd>Lspsaga show_line_diagnostics<CR>")
+keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>" )
+keymap("n", "<leader>i", "<cmd>Lspsaga show_cursor_diagnostics<CR>" )
+keymap("n", "<leader>cn", "<cmd>Lspsaga rename<CR>" )
+keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
+require("debugprint").setup()
+require('neogit').setup({
+        kind = split
+})
 EOF
-set clipboard=unnamedplus
 let g:neovide_cursor_vfx_mode = "railgun"
+"
 set tabstop=4
 set shiftwidth=4
 set smarttab
 set expandtab 
 set softtabstop=4 
+"
 let g:user_emmet_leader_key='<C-Z>'
 noremap <Leader>c :Neoformat<CR>
 noremap <Leader>j :tabprevious<CR>
@@ -261,16 +247,8 @@ noremap <Leader>r :Jaq terminal<CR>
 noremap <Leader>t :tabnew<CR> 
 noremap <Leader>f :NvimTreeFocus<CR>
 noremap <Leader>F :Telescope find_files<CR>
-noremap <Leader>zn :Telekasten new_note<CR>
-noremap <Leader>zf :Telekasten find_notes<CR>
-noremap <Leader>zc :Telekasten show_calendar<CR>
-noremap <Leader>zi :Telekasten insert_link<CR>
-noremap <Leader>zg :Telekasten follow_link<CR>
-tnoremap <Esc> <C-\><C-n>
-hi DiagnosticError guifg=White
-hi DiagnosticWarn  guifg=White
-hi DiagnosticInfo  guifg=White
-hi DiagnosticHint  guifg=White
+noremap <Leader>m <Plug>(IPy-Run)
+
 let g:knap_settings = {
     \ "textopdfviewerlaunch": "zathura --synctex-editor-command 'nvim --headless -es --cmd \"lua require('\"'\"'knaphelper'\"'\"').relayjump('\"'\"'%servername%'\"'\"','\"'\"'%{input}'\"'\"',%{line},0)\"' %outputfile%",
     \ "textopdfviewerrefresh": "none",
