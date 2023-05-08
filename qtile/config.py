@@ -22,5 +22,6 @@ def autostart():
     subprocess.run([home])
 
 auto_minimize = True
+reconfigure_screens = False
 wl_input_rules = None
 wmname = "LG3D"
