@@ -51,7 +51,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'is0n/jaq-nvim'
 Plug 'windwp/nvim-ts-autotag'
 Plug 'sbdchd/neoformat'
-Plug 'williamboman/nvim-lsp-installer'
+" Plug 'williamboman/nvim-lsp-installer'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -89,8 +89,11 @@ let g:vimtex_quickfix_mode = 0
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_compiler_progname = 'nvr'
 let g:vimtex_compiler_method = 'latexmk'
-let g:vimtex_compiler_engine = 'lualatex'
- set conceallevel=1
+let g:vimtex_compiler_latexmk_engines = {
+    \ '_'                : '-xelatex',
+    \}
+" let g:vimtex_compiler_engine = 'lualatex'
+set conceallevel=1
 let g:tex_conceal='abdmg' 
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
@@ -142,17 +145,16 @@ require'lspconfig'.texlab.setup{}
 require'lspconfig'.bashls.setup{}
 require'lspconfig'.hls.setup{}
 require'lspconfig'.clangd.setup{}
-require'lspconfig'.pylsp.setup{}
+require'lspconfig'.jedi_language_server.setup{}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
-local lsp_installer = require("nvim-lsp-installer")
-lsp_installer.on_server_ready(function(server)
-    local opts = {}
-    server:setup(opts)
-end)
-local lsp_installer = require("nvim-lsp-installer")
+-- local lsp_installer = require("nvim-lsp-installer")
+ --lsp_installer.on_server_ready(function(server)
+  --local opts = {}
+   -- server:setup(opts)
+-- end)
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  --local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   require'lspconfig'.html.setup {
@@ -248,6 +250,9 @@ noremap <Leader>t :tabnew<CR>
 noremap <Leader>f :NvimTreeFocus<CR>
 noremap <Leader>F :Telescope find_files<CR>
 noremap <Leader>m <Plug>(IPy-Run)
+noremap <Leader>Mi :MagmaInit
+noremap <Leader>Me :MagmaEvaluateLine<CR>
+
 
 let g:knap_settings = {
     \ "textopdfviewerlaunch": "zathura --synctex-editor-command 'nvim --headless -es --cmd \"lua require('\"'\"'knaphelper'\"'\"').relayjump('\"'\"'%servername%'\"'\"','\"'\"'%{input}'\"'\"',%{line},0)\"' %outputfile%",
@@ -274,3 +279,4 @@ let g:dashboard_custom_header = [
    \' ███████▄░░░░░░░░░░░▄███████ ',
    \' ██████████▄▄▄▄▄▄▄██████████ ',
    \ ]
+

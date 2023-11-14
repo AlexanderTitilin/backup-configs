@@ -2,8 +2,8 @@
 colors:
   # Default colors
   primary:
-    background: '#2b2d37'
-    foreground: '#c6d0f5'
+    background: '#1F1F28'
+    foreground: '#DCD7BA'
 
   # Normal colors
   normal:
@@ -34,4 +34,4 @@ font:
     family: JetBrains Mono Nerd Font
     style: Regular
 
-  size: 13
+  size: 14

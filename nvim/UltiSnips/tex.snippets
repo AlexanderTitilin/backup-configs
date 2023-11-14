@@ -9,6 +9,10 @@ snippet // "Fraction" iA
 \\frac{$1}{$2}$0
 endsnippet
 
+snippet cal "Mathcal" iA
+\mathcal{$1}$0
+endsnippet
+
 snippet enum "Enumerate" ba 
 \begin{enumerate}
 	\item $0
@@ -23,7 +27,7 @@ endsnippet
 
 
 snippet jv "jv" iA
-\begin{lstlisting}[language=Java] 
+\begin{lstlisting}[language=Python] 
 $0 
 \end{lstlisting} 
 endsnippet
@@ -47,13 +51,18 @@ $0
 endsnippet
 
 snippet head "Head"
-\documentclass{scrartcl}
-\usepackage[utf8]{inputenc}
-\usepackage[T2A]{fontenc}
-\usepackage[russian]{babel}
+\documentclass[14pt]{extarticle}
+\usepackage{fontspec}
+\usepackage[russian, english]{babel}
+\setmainfont{Times New Roman}
 \usepackage{amssymb}
+\usepackage{setspace}
+\onehalfspacing
 \usepackage{amsmath}
 \usepackage{listings}
+\usepackage{indentfirst}
+\setlength{\parindent}{1.25cm}
+\usepackage[right=10mm,left=30mm,top=20mm,bottom=20mm]{geometry}
 \newtheorem{theorem}{Теорема}
 \newtheorem{corollary}{Следствие}[theorem]
 \newtheorem{lemma}[theorem]{Лемма}
@@ -173,7 +182,6 @@ endsnippet
 priority 300
 snippet dint "integral" wA
 \int\limits_{$1}^{$2} ${3:${VISUAL}} $0
-
 endsnippet
 snippet beg "begin{} / end{}" bA
 \begin{$1}
@@ -214,4 +222,6 @@ snip.rv = eval('latex(' + match.group(1).replace('\\', '') \
     .replace('}', ')') + ')')
 `
 endsnippet
-
+snippet df "df" iA
+\\frac{\partial $1}{\partial $2}$0
+endsnippet
